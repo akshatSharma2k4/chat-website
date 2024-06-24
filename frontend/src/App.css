@@ -1,38 +1,29 @@
-.App {
-  text-align: center;
+.hover-search-user:hover {
+    border: 2px solid rgb(139, 138, 138);
+    border-radius: 4px;
+}
+.hover-btn:hover {
+    color: red;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.selectorHover:hover {
+    background-color: rgb(221, 215, 215);
+    border-radius: 8px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.contact-hover:hover {
+    box-sizing: border-box;
+    border: 2px solid teal;
+    border-radius: 4px;
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.text-ellipsis {
+    word-break: break-word;
+    overflow-wrap: break-word;
+    overflow: hidden;
+    display: -webkit-box; /* Safari, Chrome, etc. */
+    display: box; /* Firefox, etc. */
+    -webkit-line-clamp: 1; /* Safari, Chrome, etc. */
+    line-clamp: 1;
+    -webkit-box-orient: vertical; /* Safari, Chrome, etc. */
+    box-orient: vertical;
 }

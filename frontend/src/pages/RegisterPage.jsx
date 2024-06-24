@@ -1,16 +1,15 @@
-import { Stack } from "@mui/material";
-import React from "react";
-import { TextField } from "@mui/material";
-import { Button } from "@mui/material";
+import { Stack, TextField, Button, CircularProgress } from "@mui/material";
+import React, { useState } from "react";
 import { IoCloseOutline } from "react-icons/io5";
-import { useState } from "react";
-import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 import axios from "axios";
 import uploadFile from "../helpers/uploadFile";
 
 const LoginPage = () => {
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
+    const [uploadPhoto, setUploadPhoto] = useState(null);
     const [signupDetails, setSignupDetails] = useState({
         username: "",
         email: "",
@@ -18,7 +17,7 @@ const LoginPage = () => {
         confirmPassword: "",
         profilePic: "",
     });
-    const [uploadPhoto, setUploadPhoto] = useState(null);
+    // handles user data input in form to update state
     const handleChange = (event) => {
         const { name, value } = event.target;
         setSignupDetails((prevDetails) => ({
@@ -27,6 +26,7 @@ const LoginPage = () => {
         }));
     };
 
+    // handle submit button functionality
     const handleSubmit = async () => {
         const url = `${process.env.REACT_APP_BACKEND_URL}/api/register`;
         try {
@@ -61,6 +61,7 @@ const LoginPage = () => {
         console.log("GoogleClickOccured");
     };
     const handleProfilePhotoUpload = async (e) => {
+        setLoading(true);
         const photo = e.target.files[0];
         const uploadPhoto = await uploadFile(photo);
         //console.log("uploadPhoto", uploadPhoto);
@@ -71,6 +72,7 @@ const LoginPage = () => {
                 profilePic: uploadPhoto?.url,
             };
         });
+        setLoading(false);
     };
     const handlePhotoCancel = (e) => {
         setUploadPhoto(null);
@@ -108,23 +110,35 @@ const LoginPage = () => {
                 onChange={handleChange}
             />
             <div>
-                <label htmlFor="profilePic">
-                    <p>Upload profile picture</p>
-                </label>
-                <Stack direction={"row"}>
+                <Stack direction={"row"} alignItems={"center"} gap={2}>
+                    <label
+                        htmlFor="profilePic"
+                        style={{  cursor: "pointer" }}
+                    >
+                        {uploadPhoto ? (
+                            uploadPhoto.name
+                        ) : (
+                            <p>Upload profile picture</p>
+                        )}
+                    </label>
                     <input
                         type="file"
                         id="profilePic"
                         name="profilePic"
                         onChange={handleProfilePhotoUpload}
+                        style={{ display: "none", cursor: "pointer" }}
                     />
                     <button className="text-lg" onClick={handlePhotoCancel}>
-                        <IoCloseOutline />
+                        <IoCloseOutline size={20} />
                     </button>
                 </Stack>
             </div>
-            <Button variant="contained" onClick={handleSubmit}>
-                SignUp
+            <Button
+                variant="contained"
+                onClick={handleSubmit}
+                disabled={loading ? true : false}
+            >
+                {loading ? <CircularProgress size={24} /> : <span>SignUp</span>}
             </Button>
             <Button variant="contained" onClick={handleGoogleClick}>
                 SignUp With Google

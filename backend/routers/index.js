@@ -5,6 +5,7 @@ const verifyPassword = require("../controllers/verifyPassword");
 const userDetails = require("../controllers/userDetails");
 const logout = require("../controllers/logout");
 const updateUserDetails = require("../controllers/updateUserData");
+const searchUser = require("../controllers/searchUser");
 const router = express.Router();
 
 router.route("/register").post(registerUser);
@@ -13,5 +14,6 @@ router.route("/verify-password").post(verifyPassword);
 router.route("/user-details").get(userDetails);
 router.route("/logout").get(logout);
 router.route("/update-user").post(updateUserDetails);
+router.route("/search-user").post(searchUser);
 
 module.exports = router;

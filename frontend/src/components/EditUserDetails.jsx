@@ -9,8 +9,13 @@ import {
 } from "@mui/material";
 import uploadFile from "../helpers/uploadFile";
 import axios from "axios";
+import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { setUser } from "../redux/userSlice";
 
 const EditUserDetails = ({ data, onClose }) => {
+    const dispatch = useDispatch();
+
     const [userData, setUserData] = useState({
         name: data?.name,
         profilePic: data?.profilePic,
@@ -35,7 +40,6 @@ const EditUserDetails = ({ data, onClose }) => {
                 profilePic: uploadPhoto.url,
             };
         });
-        console.log("UserData from photo upload", userData);
     };
 
     const handleSubmit = async (event) => {
@@ -50,9 +54,12 @@ const EditUserDetails = ({ data, onClose }) => {
                 data: userData,
                 withCredentials: true,
             });
-            console.log(response);
+            // console.log(response);
+            toast.success(response.data.message);
+            dispatch(setUser(response.data.data));
+            onClose();
         } catch (error) {
-            console.log(error);
+            toast.error(error?.response?.data?.message);
         }
     };
     const dialogStyle = {

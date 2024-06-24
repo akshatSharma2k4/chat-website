@@ -3,6 +3,12 @@ const bcrypt = require("bcryptjs");
 const registerUser = async (req, resp) => {
     try {
         const { name, email, password, profilePic } = req.body;
+        if (!name || !email || !password || !profilePic) {
+            return resp.status(500).json({
+                message: "User details incomplete",
+                error: true,
+            });
+        }
         const checkEmail = await UserModel.findOne({ email });
         if (checkEmail) {
             return resp.status(400).json({
